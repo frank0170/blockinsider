@@ -1,6 +1,18 @@
 import type { Metadata } from "next";
+import { AppRouterCacheProvider } from "@mui/material-nextjs/v15-appRouter";
+import { ThemeProvider } from "@mui/material/styles";
+import { Roboto } from "next/font/google";
+import theme, { darkTheme, lightTheme } from "../utils/theme";
+import { getTopCryptoList } from "@/api/coinMarketCap";
 import localFont from "next/font/local";
 import "./globals.css";
+
+const roboto = Roboto({
+  weight: ["300", "400", "500", "700"],
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-roboto",
+});
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -25,13 +37,13 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        <header className="bg-white-900 text-white py-4 px-6">
-          <div className="container mx-auto flex justify-between items-center">
-            <h1 className="text-xl font-bold text-black">BlockInsider</h1>
-            {/* <nav>
+      <body className={roboto.variable}>
+        <AppRouterCacheProvider>
+          <ThemeProvider theme={lightTheme}>
+            <header className="bg-white-900 text-white py-4 px-6">
+              <div className="container mx-auto flex justify-between items-center">
+                <h1 className="text-xl font-bold text-black">BlockInsider</h1>
+                {/* <nav>
               <ul className="flex space-x-4">
                 <li>
                   <a href="/" className="hover:underline">
@@ -50,10 +62,12 @@ export default function RootLayout({
                 </li>
               </ul>
             </nav> */}
-          </div>
-        </header>
-        <hr style={{ height: "1px", background: "black" }} />
-        <main>{children}</main>
+              </div>
+            </header>
+            <hr style={{ height: "1px", background: "black" }} />
+            <main>{children}</main>
+          </ThemeProvider>
+        </AppRouterCacheProvider>
       </body>
     </html>
   );

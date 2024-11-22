@@ -5,17 +5,18 @@ const coinMarketCapApi = isDevelopment
   ? "http://localhost:5050/blockinsider"
   : "api/blockinsider";
 
-const fetchCoinMarketCapApi = async (
-  endpoint: string,
-  params: any | null
-): Promise<AxiosResponse<any, any>> => {
-  const res = await axios.post(coinMarketCapApi, {
-    body: {
-      endpoint,
-    },
-    params,
-  });
-  return res.data;
+const fetchCoinMarketCapApi = async (endpoint: string, params: any | null) => {
+  try {
+    const res = await axios.get(`${coinMarketCapApi}?endpoint=${endpoint}`, {
+      params: {
+        ...params,
+      },
+    });
+    return res.data;
+  } catch (error) {
+    console.error("Error fetching data: ", error);
+    throw error;
+  }
 };
 
 export const getGlobalCryptoList = async () => {

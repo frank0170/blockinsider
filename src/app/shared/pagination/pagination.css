@@ -1,0 +1,35 @@
+/* Pagination Component */
+.pagination {
+  display: flex;
+  gap: 5px;
+  font-family: Arial, sans-serif;
+}
+
+.pagination button {
+  padding: 5px 10px;
+  background-color: #f0f0f0;
+  border: 1px solid #ccc;
+  border-radius: 12px;
+  cursor: pointer;
+
+  color: black;
+}
+
+.pagination button.active {
+  background-color: #8800ff;
+  color: #fff;
+  border-radius: 12px;
+  width: 35px;
+  border-color: #8800ff;
+}
+
+.pagination button:disabled {
+  cursor: not-allowed;
+  background-color: #e0e0e0;
+  color: #999;
+}
+
+.pagination .dots {
+  padding: 5px 10px;
+  color: black;
+}
