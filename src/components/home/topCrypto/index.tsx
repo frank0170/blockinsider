@@ -9,10 +9,9 @@ import { testCrypto } from "../../../utils/mock";
 export const TopCryptoList = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedOption, setSelectedOption] = useState<number>(10);
-  const options = [5, 10, 50, 100]; // Options for items per page
+  const options = [5, 10, 50, 100];
 
   const [coinsList, setCoinsList] = useState([]);
-  // Calculate the items to display based on currentPage and selectedOption
   const totalItems = coinsList.length;
   const itemsPerPage = selectedOption;
   const totalPages = Math.ceil(totalItems / itemsPerPage);
@@ -26,11 +25,10 @@ export const TopCryptoList = () => {
     const fetchData = async () => {
       const res = await getTopCryptoList();
       setCoinsList(res.data);
-      console.log(res); // Now you will get the data instead of a Promise.
     };
 
-    fetchData(); // Call the async function
-  }, []); // Add the dependency array to avoid infinite loops
+    fetchData();
+  }, []);
 
   return (
     <div className="w-full bg-white">
@@ -46,7 +44,7 @@ export const TopCryptoList = () => {
           </tr>
         </thead>
         <tbody>
-          {paginatedItems.map((item, index) => (
+          {paginatedItems.map((item: any, index) => (
             <tr key={index} className="hover:bg-gray-100">
               <td className="py-2 px-4 text-gray-800">{item.cmc_rank}</td>
               <td className="py-2 px-4 text-gray-800">
@@ -84,7 +82,7 @@ export const TopCryptoList = () => {
           selectedOption={selectedOption}
           setSelectedOption={(option) => {
             setSelectedOption(option);
-            setCurrentPage(1); // Reset to the first page when option changes
+            setCurrentPage(1);
           }}
         />
       </div>

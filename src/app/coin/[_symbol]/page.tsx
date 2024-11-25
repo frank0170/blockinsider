@@ -1,21 +1,76 @@
 "use client";
-import React, { useState, useEffect } from "react";
+
+import React, { useState, useEffect, use } from "react";
 import { formatValuePrices } from "../../../utils/numbers";
-import { getCoinData } from "@/api/coinMarketCap";
+import { CryptoChart } from "@/components/coin/graph/graph";
+import { getCoinData, getCoinOHLCV } from "@/api/coinMarketCap";
 
 export default function Page({ params }: any) {
-  const { _symbol } = params;
+  const { _symbol } = use<any>(params);
+  const [coin, setCoin] = useState<string>(_symbol);
   const [coinData, setCoinData] = useState<any>({});
+  const [coinOHLCV, setCoinOHLCV] = useState<any[]>([]);
+  const [coinInterval, setCoinInterval] = useState<string>("1d");
+
+  useEffect(() => {
+    if (_symbol) {
+      setCoin(_symbol);
+    }
+  }, [_symbol]);
 
   useEffect(() => {
     const fetchData = async () => {
-      const res = await getCoinData(_symbol, "USD");
-      setCoinData(res.data);
-      console.log(res);
+      if (!coin) return;
+
+      try {
+        const res = await getCoinData(coin, "USD");
+        setCoinData(res.data[coin] || {});
+      } catch (error) {
+        console.error("Error fetching coin data:", error);
+      }
     };
 
     fetchData();
-  }, [_symbol]);
+  }, [coin]);
+
+  const dateToChartTimeMinute = (date: any) => {
+    return (
+      Date.UTC(
+        date.getFullYear(),
+        date.getMonth(),
+        date.getDate(),
+        date.getHours(),
+        date.getMinutes(),
+        0,
+        0
+      ) / 1000
+    );
+  };
+
+  useEffect(() => {
+    const fetchCoinOHLCV = async () => {
+      const coinId = coinData?.id;
+      if (!coinId || !coinInterval) return;
+
+      try {
+        const res = await getCoinOHLCV(coinId, coinInterval, 1000);
+        const chartData = res.data?.quotes?.map((item: any) => ({
+          time: dateToChartTimeMinute(new Date(item.quote.USD.timestamp)),
+          open: item.quote.USD.open,
+          high: item.quote.USD.high,
+          low: item.quote.USD.low,
+          close: item.quote.USD.close,
+        }));
+
+        setCoinOHLCV(chartData || []);
+        console.log(chartData);
+      } catch (error) {
+        console.error("Error fetching OHLCV data:", error);
+      }
+    };
+
+    fetchCoinOHLCV();
+  }, [coinData?.id, coinInterval]);
 
   return (
     <div className="bg-gray-100 min-h-screen py-8 px-4">
@@ -25,15 +80,13 @@ export default function Page({ params }: any) {
         <div className="flex justify-between items-center mb-8">
           <div>
             <h1 className="text-3xl font-semibold text-gray-800">
-              {coinData[_symbol]?.name}
-              <p className="text-lg text-gray-500">
-                {coinData[_symbol]?.symbol}
-              </p>
+              {coinData?.name}
+              <p className="text-lg text-gray-500">{coinData?.symbol}</p>
             </h1>
           </div>
           <div className="text-right">
             <span className="text-2xl font-bold text-gray-800">
-              ${coinData[_symbol]?.quote?.USD?.price?.toLocaleString()}
+              ${coinData?.quote?.USD?.price?.toLocaleString() || "N/A"}
             </span>
             <p className="text-sm text-gray-500">Price in USD</p>
           </div>
@@ -44,22 +97,25 @@ export default function Page({ params }: any) {
           <div className="bg-gray-50 p-6 rounded-lg shadow-md">
             <h3 className="text-xl font-medium text-gray-700">Market Cap</h3>
             <p className="text-lg text-gray-900">
-              ${formatValuePrices(coinData[_symbol]?.quote?.USD?.market_cap)}
+              ${formatValuePrices(coinData?.quote?.USD?.market_cap) || "N/A"}
             </p>
           </div>
           <div className="bg-gray-50 p-6 rounded-lg shadow-md">
             <h3 className="text-xl font-medium text-gray-700">24h Change</h3>
-            <p className="text-lg text-green-600">
-              {coinData[
-                _symbol
-              ]?.quote?.USD?.percent_change_24h?.toLocaleString()}
-              %
+            <p
+              className={`text-lg ${
+                coinData?.quote?.USD?.percent_change_24h > 0
+                  ? "text-green-600"
+                  : "text-red-600"
+              }`}
+            >
+              {coinData?.quote?.USD?.percent_change_24h?.toFixed(2) || "N/A"}%
             </p>
           </div>
           <div className="bg-gray-50 p-6 rounded-lg shadow-md">
             <h3 className="text-xl font-medium text-gray-700">24h Volume</h3>
             <p className="text-lg text-gray-900">
-              ${formatValuePrices(coinData[_symbol]?.quote?.USD?.volume_24h)}
+              ${formatValuePrices(coinData?.quote?.USD?.volume_24h) || "N/A"}
             </p>
           </div>
         </div>
@@ -69,9 +125,30 @@ export default function Page({ params }: any) {
           <h2 className="text-xl font-medium text-gray-700 mb-4">
             Price Chart
           </h2>
-          {/* Placeholder for Chart */}
-          <div className="h-64 bg-gray-200 rounded-lg">
-            {/* Add your chart here */}
+
+          <div className="flex space-x-4 mb-4">
+            <button
+              className="w-[40px] rounded-lg px-2 py-1 border border-black"
+              onClick={() => setCoinInterval("7d")}
+            >
+              1W
+            </button>
+            <button
+              className="w-[40px] rounded-lg px-2 py-1 border border-black"
+              onClick={() => setCoinInterval("1d")}
+            >
+              1D
+            </button>
+            <button
+              className="w-[40px] rounded-lg px-2 py-1 border border-black"
+              onClick={() => setCoinInterval("1h")}
+            >
+              1H
+            </button>
+          </div>
+
+          <div className="h-[400px] bg-gray-200 rounded-lg">
+            <CryptoChart data={coinOHLCV} />
           </div>
         </div>
 
