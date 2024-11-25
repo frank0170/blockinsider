@@ -4,6 +4,8 @@ import React, { useState, useEffect, use } from "react";
 import { formatValuePrices } from "../../../utils/numbers";
 import { CryptoChart } from "@/components/coin/graph/graph";
 import { getCoinData, getCoinOHLCV } from "@/api/coinMarketCap";
+import BitcoinCalendar from "@/components/coin/calendar/calendar";
+import BitcoinMonthlyCalendar from "@/components/coin/monthly/monthly";
 
 export default function Page({ params }: any) {
   const { _symbol } = use<any>(params);
@@ -11,6 +13,7 @@ export default function Page({ params }: any) {
   const [coinData, setCoinData] = useState<any>({});
   const [coinOHLCV, setCoinOHLCV] = useState<any[]>([]);
   const [coinInterval, setCoinInterval] = useState<string>("1d");
+  const [dailyChanges, setDailyChanges] = useState<any[]>([]);
 
   useEffect(() => {
     if (_symbol) {
@@ -63,7 +66,20 @@ export default function Page({ params }: any) {
         }));
 
         setCoinOHLCV(chartData || []);
-        console.log(chartData);
+        // Calculate daily percentage changes
+        const dailyData = chartData?.map((entry: any, index: number) => {
+          if (index === 0) return null;
+          const prevClose = chartData[index - 1].close;
+          const currClose = entry.close;
+          const change = ((currClose - prevClose) / prevClose) * 100;
+
+          return {
+            date: new Date(entry.time * 1000).toISOString().split("T")[0], // Format as YYYY-MM-DD
+            change: parseFloat(change.toFixed(2)), // 2 decimals
+          };
+        });
+
+        setDailyChanges(dailyData?.filter(Boolean) || []);
       } catch (error) {
         console.error("Error fetching OHLCV data:", error);
       }
@@ -150,6 +166,20 @@ export default function Page({ params }: any) {
           <div className="h-[400px] bg-gray-200 rounded-lg">
             <CryptoChart data={coinOHLCV} />
           </div>
+        </div>
+
+        <div className="bg-white p-6 rounded-lg shadow-md">
+          <h2 className="text-xl font-medium text-gray-700 mb-4">
+            Bitcoin Daily Price Changes Calendar
+          </h2>
+          <BitcoinCalendar data={dailyChanges} />
+        </div>
+
+        <div className="bg-white p-6 rounded-lg shadow-md">
+          <h2 className="text-xl font-medium text-gray-700 mb-4">
+            Bitcoin Monthly Price Changes Calendar
+          </h2>
+          <BitcoinMonthlyCalendar data={dailyChanges} />
         </div>
 
         {/* News Section */}
