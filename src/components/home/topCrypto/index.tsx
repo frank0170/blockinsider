@@ -33,7 +33,7 @@ export const TopCryptoList = () => {
   }, []); // Add the dependency array to avoid infinite loops
 
   return (
-    <div className="w-full">
+    <div className="w-full bg-white">
       <table className="w-full border-collapse text-left">
         <thead className="border-b">
           <tr>

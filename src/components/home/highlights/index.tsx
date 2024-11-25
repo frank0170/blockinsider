@@ -5,7 +5,10 @@ const globalTitle = "text-black font-semibold text-[20px]";
 
 const BitcoinCard = () => {
   return (
-    <div className={globalCard} style={{ border: "1px solid black" }}>
+    <div
+      className={globalCard}
+      style={{ border: "1px solid black", background: "white" }}
+    >
       <div className="w-full flex justify-between">
         <span className={globalTitle}>Bitcoin Dominance</span>
         <span>7D</span>
@@ -16,7 +19,10 @@ const BitcoinCard = () => {
 
 const FearGreedCard = () => {
   return (
-    <div className={globalCard} style={{ border: "1px solid black" }}>
+    <div
+      className={globalCard}
+      style={{ border: "1px solid black", background: "white" }}
+    >
       <div className="w-full flex">
         <span className={globalTitle}>Fear & Greed Index</span>
       </div>
@@ -26,7 +32,10 @@ const FearGreedCard = () => {
 
 const EventsCard = () => {
   return (
-    <div className={globalCard} style={{ border: "1px solid black" }}>
+    <div
+      className={globalCard}
+      style={{ border: "1px solid black", background: "white" }}
+    >
       <div className="w-full flex">
         <span className={globalTitle}>Hot Events</span>
       </div>
