@@ -2,7 +2,7 @@ import axios from "axios";
 import { isDevelopment } from "../utils/config";
 
 const baseURL = isDevelopment
-  ? "http://localhost:5050/blockinsider"
+  ? "https://138.197.105.34:3000/blockinsider"
   : "api/blockinsider";
 
 export const getGlobalCryptoList = async () => {
