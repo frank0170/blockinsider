@@ -22,7 +22,7 @@ const CryptoNews = ({
 }: {
   news: NewsItem[];
   symbol: string;
-  overview: boolean;
+  overview?: boolean;
 }) => {
   const [newsArray, setNewsArray] = useState<TransformedNewsItem[]>([]);
   const [loading, setLoading] = useState(true);
