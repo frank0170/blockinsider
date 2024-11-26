@@ -15,8 +15,9 @@ export const Pagination = ({
   onPageChange,
 }: PaginationProps) => {
   const getPaginationRange = () => {
-    const range = [];
-    const showDots = (start: any, end: any): void => {
+    const range: (number | string)[] = [];
+
+    const showDots = (start: number, end: number): void => {
       range.push(start);
       if (start + 1 < end) range.push("...");
       range.push(end);
