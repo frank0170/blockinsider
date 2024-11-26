@@ -1,25 +1,37 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
-import { List, ListItem, ListItemText, Typography, Link } from "@mui/material";
+import { Typography, Link } from "@mui/material";
 
-// API Keys
-const CMC_API_KEY = "your-cmc-api-key";
-const CRYPTOPANIC_API_KEY = "your-cryptopanic-api-key";
+type NewsItem = {
+  title: string;
+  source: { title: string };
+  published_at: string;
+  url: string;
+};
 
-// URLs
-const CMC_URL = "https://pro-api.coinmarketcap.com/v1/cryptocurrency/info";
-const NEWS_URL = "https://cryptopanic.com/api/v1/posts/";
+type TransformedNewsItem = {
+  title: string;
+  source: string;
+  date: string;
+  url: string;
+};
 
-const CryptoNews = ({ news, symbol, overview }: any) => {
-  const [newsArray, setNewsArray] = useState([]);
+const CryptoNews = ({
+  news,
+  symbol,
+  overview,
+}: {
+  news: NewsItem[];
+  symbol: string;
+  overview: boolean;
+}) => {
+  const [newsArray, setNewsArray] = useState<TransformedNewsItem[]>([]);
   const [loading, setLoading] = useState(true);
 
-  function formatDate(publishedAt: any) {
+  function formatDate(publishedAt: string) {
     const publishedDate = new Date(publishedAt);
 
-    // If the date is older than 10 days, format as dd/mm/yyyy
     const day = publishedDate.getDate().toString().padStart(2, "0");
-    const month = (publishedDate.getMonth() + 1).toString().padStart(2, "0"); // months are 0-indexed
+    const month = (publishedDate.getMonth() + 1).toString().padStart(2, "0");
     const year = publishedDate.getFullYear();
 
     return `${day}/${month}/${year}`;
@@ -27,7 +39,7 @@ const CryptoNews = ({ news, symbol, overview }: any) => {
 
   useEffect(() => {
     const fetchNews = async () => {
-      const topNews = news.map((newsItem: any) => ({
+      const topNews = news.map((newsItem) => ({
         title: newsItem.title,
         source: newsItem.source.title || "No description available.",
         date: formatDate(newsItem.published_at),
