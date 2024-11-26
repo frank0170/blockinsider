@@ -8,7 +8,7 @@ import React, {
   useLayoutEffect,
   use,
 } from "react";
-import { formatValuePrices } from "../../../utils/numbers";
+import { formatValuePrices } from "../../../../utils/numbers";
 import { CryptoChart } from "@/components/coin/graph/graph";
 import {
   getCoinData,
@@ -138,61 +138,7 @@ export default function Page({ params }: any) {
 
   return (
     <div className="w-full">
-      {/* Main container */}
-
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-8">
-        <div className="bg-gray-50 p-6 rounded-lg shadow-md">
-          <h3 className="text-xl font-medium text-gray-700">Market Cap</h3>
-          <p className="text-lg text-gray-900">
-            ${formatValuePrices(coinData?.quote?.USD?.market_cap) || "N/A"}
-          </p>
-        </div>
-
-        <div className="bg-gray-50 p-6 rounded-lg shadow-md">
-          <h3 className="text-xl font-medium text-gray-700">
-            Circulating Supply
-          </h3>
-          <p className="text-lg text-gray-900">
-            ${formatValuePrices(coinData?.circulating_supply) || "N/A"}
-          </p>
-        </div>
-
-        <div className="bg-gray-50 p-6 rounded-lg shadow-md">
-          <h3 className="text-xl font-medium text-gray-700">Total Supply</h3>
-          <p className="text-lg text-gray-900">
-            ${formatValuePrices(coinData?.total_supply) || "N/A"}
-          </p>
-        </div>
-
-        <div className="bg-gray-50 p-6 rounded-lg shadow-md">
-          <h3 className="text-xl font-medium text-gray-700">Max Supply</h3>
-          <p className="text-lg text-gray-900">
-            ${formatValuePrices(coinData?.max_supply) || "N/A"}
-          </p>
-        </div>
-
-        <div className="bg-gray-50 p-6 rounded-lg shadow-md">
-          <h3 className="text-xl font-medium text-gray-700">24h Change</h3>
-          <p
-            className={`text-lg ${
-              coinData?.quote?.USD?.percent_change_24h > 0
-                ? "text-green-600"
-                : "text-red-600"
-            }`}
-          >
-            {coinData?.quote?.USD?.percent_change_24h?.toFixed(2) || "N/A"}%
-          </p>
-        </div>
-        <div className="bg-gray-50 p-6 rounded-lg shadow-md">
-          <h3 className="text-xl font-medium text-gray-700">24h Volume</h3>
-          <p className="text-lg text-gray-900">
-            ${formatValuePrices(coinData?.quote?.USD?.volume_24h) || "N/A"}
-          </p>
-        </div>
-      </div>
-
       {/* Price chart */}
-      <br />
       <div className="bg-white p-6 rounded-lg shadow-md">
         <h2 className="text-xl font-medium text-gray-700 mb-4">
           Price Chart - daily
@@ -222,54 +168,6 @@ export default function Page({ params }: any) {
         <div className="h-[400px] bg-gray-200 rounded-lg">
           <CryptoChart data={coinOHLCV} />
         </div>
-      </div>
-
-      <br />
-
-      <div className="bg-white p-6 rounded-lg shadow-md">
-        <h2 className="text-xl font-medium text-gray-700 mb-4">
-          Last 30 days Calendar
-        </h2>
-        <BitcoinCalendar data={dailyChanges} />
-      </div>
-
-      <br />
-
-      <div className="bg-white p-6 rounded-lg shadow-md">
-        <h2 className="text-xl font-medium text-gray-700 mb-4">
-          Monthly Calendar
-        </h2>
-        <BitcoinMonthlyCalendar data={dailyChanges} />
-      </div>
-      <br />
-
-      <div className="bg-white p-6 rounded-lg shadow-md">
-        <div className="flex justify-between items-center">
-          <h2 className="text-xl font-medium text-gray-700 mb-4">
-            {coinData?.symbol} Markets
-          </h2>
-          <div>
-            <span>Spot</span>
-            <Switch
-              checked={isChecked} // Controlled component
-              onChange={handleChange} // Updates state when toggled
-              color="default"
-            />
-            <span>Futures</span>
-          </div>
-        </div>
-        <ExchangeList
-          coinId={coinData?.id}
-          type={!isChecked ? "spot" : "derivatives"}
-        />
-      </div>
-
-      {/* News Section */}
-      <div className="mt-8">
-        <h2 className="text-2xl font-semibold text-gray-800 mb-4">
-          Latest News
-        </h2>
-        <CryptoNews news={coinNews} symbol={coinData?.symbol} />
       </div>
     </div>
   );

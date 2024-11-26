@@ -27,7 +27,7 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts",
-    "src/app/api/coinmarketcap.js"
+    "src/api/coinmarketcap.js"
   ],
   "exclude": ["node_modules"]
 }

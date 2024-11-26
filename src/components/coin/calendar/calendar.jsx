@@ -6,7 +6,7 @@ import styles from "./calendar.module.css";
 const BitcoinCalendar = ({ data }) => {
   const today = new Date();
   const startDay = new Date();
-  startDay.setDate(today.getDate() - 30);
+  startDay.setDate(today.getDate() - 34);
 
   const changesMap = data.reduce((acc, { date, change }) => {
     acc[date] = change;

@@ -59,10 +59,10 @@ export const getCoinData = async (coin: string, currency: string) => {
   }
 };
 
-export const getCoinMetadata = async (coin: string) => {
+export const getCoinMetadata = async (coin: string | number) => {
   try {
     const res = await axios.get(`${baseURL}/coin-metadata`, {
-      params: { symbol: coin },
+      params: { id: coin },
     });
     return res.data;
   } catch (error) {
@@ -77,6 +77,33 @@ export const getCoinsMetadata = async () => {
     return res.data;
   } catch (error) {
     console.error("Error fetching coins metadata: ", error);
+    throw error;
+  }
+};
+
+export const getCoinMarket = async (
+  coin: string | number,
+  currency: string = "USD"
+) => {
+  try {
+    const res = await axios.get(`${baseURL}/markets`, {
+      params: { id: coin, currency },
+    });
+    return res.data;
+  } catch (error) {
+    console.error("Error fetching coin metadata: ", error);
+    throw error;
+  }
+};
+
+export const getCoinNews = async (coin: string | number, page: number = 1) => {
+  try {
+    const res = await axios.get(`${baseURL}/news`, {
+      params: { id: coin, page },
+    });
+    return res.data;
+  } catch (error) {
+    console.error("Error fetching coin metadata: ", error);
     throw error;
   }
 };

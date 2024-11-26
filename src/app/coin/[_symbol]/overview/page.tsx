@@ -8,7 +8,7 @@ import React, {
   useLayoutEffect,
   use,
 } from "react";
-import { formatValuePrices } from "../../../utils/numbers";
+import { formatValuePrices } from "../../../../utils/numbers";
 import { CryptoChart } from "@/components/coin/graph/graph";
 import {
   getCoinData,
@@ -261,6 +261,7 @@ export default function Page({ params }: any) {
         <ExchangeList
           coinId={coinData?.id}
           type={!isChecked ? "spot" : "derivatives"}
+          overview
         />
       </div>
 
@@ -269,7 +270,7 @@ export default function Page({ params }: any) {
         <h2 className="text-2xl font-semibold text-gray-800 mb-4">
           Latest News
         </h2>
-        <CryptoNews news={coinNews} symbol={coinData?.symbol} />
+        <CryptoNews news={coinNews} symbol={coinData?.symbol} overview />
       </div>
     </div>
   );
