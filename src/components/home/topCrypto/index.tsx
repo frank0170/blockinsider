@@ -2,12 +2,14 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { getTopCryptoList } from "@/api/coinMarketCap";
+import { useTheme } from "@/context/ThemeContext";
 import { Pagination } from "@/app/shared/pagination/pagination";
 import { Dropdown } from "@/app/shared/dropdown/dropdown";
 import ArrowDropUpIcon from "@mui/icons-material/ArrowDropUp";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 
 export const TopCryptoList = () => {
+  const { isDarkMode } = useTheme();
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedOption, setSelectedOption] = useState<number>(10);
   const options = [5, 10, 50, 100];
@@ -54,29 +56,41 @@ export const TopCryptoList = () => {
     }
   };
 
+  const tableText = isDarkMode
+    ? "py-2 px-4 text-[#e0e0e0] font-medium"
+    : "py-2 px-4 text-gray-700 font-medium";
+
+  const tableItem = isDarkMode
+    ? "py-2 px-4 text-[#e0e0e0] "
+    : "py-2 px-4 text-gray-800";
+
+  const activeItem = isDarkMode
+    ? "hover:bg-gray-600 h-[80px]"
+    : "hover:bg-gray-100 h-[80px]";
+
   return (
-    <div className="w-full bg-white">
+    <div className={`w-full bg-[#${isDarkMode ? "454545" : "000000"}]`}>
       <table className="w-full border-collapse text-left">
         <thead className="border-b">
           <tr>
-            <th className="py-2 px-4 text-gray-700 font-medium">Rank</th>
-            <th className="py-2 px-4 text-gray-700 font-medium">Name</th>
-            <th className="py-2 px-4 text-gray-700 font-medium">Price</th>
-            <th className="py-2 px-4 text-gray-700 font-medium">24h %</th>
-            <th className="py-2 px-4 text-gray-700 font-medium">7d %</th>
-            <th className="py-2 px-4 text-gray-700 font-medium">Market Cap</th>
-            <th className="py-2 px-4 text-gray-700 font-medium">Volume 24h</th>
+            <th className={tableText}>Rank</th>
+            <th className={tableText}>Name</th>
+            <th className={tableText}>Price</th>
+            <th className={tableText}>24h %</th>
+            <th className={tableText}>7d %</th>
+            <th className={tableText}>Market Cap</th>
+            <th className={tableText}>Volume 24h</th>
           </tr>
         </thead>
         <tbody>
           {paginatedItems.map((item: any, index) => (
             <tr
               key={index}
-              className="hover:bg-gray-100 h-[80px]"
+              className={activeItem}
               style={{ borderBottom: "1px solid #f7f7f7" }}
             >
               <td className="py-2 px-4 text-[#a5a5a5]">#{item.cmc_rank}</td>
-              <td className="py-2 px-4 text-gray-800">
+              <td className={tableItem}>
                 <Link href={`/coin/${item.symbol}/overview`} prefetch={true}>
                   <div className="flex flex-row items-center gap-[8px]">
                     <img
@@ -88,19 +102,19 @@ export const TopCryptoList = () => {
                   </div>
                 </Link>
               </td>
-              <td className="py-2 px-4 text-gray-800">
+              <td className={tableItem}>
                 ${item?.quote?.USD?.price?.toLocaleString()}
               </td>
-              <td className="py-2 px-4 text-gray-800">
+              <td className={tableItem}>
                 {changeFormater(item.quote?.USD?.percent_change_24h)}
               </td>
-              <td className="py-2 px-4 text-gray-800">
+              <td className={tableItem}>
                 {changeFormater(item.quote?.USD?.percent_change_7d)}
               </td>
-              <td className="py-2 px-4 text-gray-800">
+              <td className={tableItem}>
                 ${item.quote?.USD?.market_cap.toLocaleString()}
               </td>
-              <td className="py-2 px-4 text-gray-800">
+              <td className={tableItem}>
                 <div className="flex flex-col">
                   <span>${item.quote?.USD?.volume_24h.toLocaleString()}</span>
                   <span className="text-[#b4b4b4] text-[14px]">

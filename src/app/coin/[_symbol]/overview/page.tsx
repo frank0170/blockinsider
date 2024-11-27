@@ -26,9 +26,11 @@ import CodeIcon from "@mui/icons-material/Code";
 import { ExchangeList } from "@/components/coin/topCrypto";
 import Switch from "@mui/material/Switch";
 import CryptoNews from "@/components/coin/news/news";
+import { useTheme } from "@/context/ThemeContext";
 
 export default function Page({ params }: any) {
   const { _symbol } = use<any>(params);
+  const { isDarkMode } = useTheme();
   const [coin, setCoin] = useState<string>(_symbol);
   const [coinData, setCoinData] = useState<any>({});
   const [coinMetaData, setCoinMetaData] = useState<any>({});
@@ -136,43 +138,47 @@ export default function Page({ params }: any) {
     setDailyChanges(calculatedDailyChanges); // Update daily changes on calculation
   }, [calculatedDailyChanges]);
 
+  const backgroundPage = isDarkMode
+    ? "bg-[#454545] p-6 rounded-lg shadow-md"
+    : "bg-gray-50 p-6 rounded-lg shadow-md";
+  const textPage = isDarkMode
+    ? "text-xl font-medium text-[#e0e0e0]"
+    : "text-xl font-medium text-gray-700";
   return (
     <div className="w-full">
       {/* Main container */}
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-8">
-        <div className="bg-gray-50 p-6 rounded-lg shadow-md">
-          <h3 className="text-xl font-medium text-gray-700">Market Cap</h3>
+        <div className={backgroundPage}>
+          <h3 className={textPage}>Market Cap</h3>
           <p className="text-lg text-gray-900">
             ${formatValuePrices(coinData?.quote?.USD?.market_cap) || "N/A"}
           </p>
         </div>
 
-        <div className="bg-gray-50 p-6 rounded-lg shadow-md">
-          <h3 className="text-xl font-medium text-gray-700">
-            Circulating Supply
-          </h3>
+        <div className={backgroundPage}>
+          <h3 className={textPage}>Circulating Supply</h3>
           <p className="text-lg text-gray-900">
             ${formatValuePrices(coinData?.circulating_supply) || "N/A"}
           </p>
         </div>
 
-        <div className="bg-gray-50 p-6 rounded-lg shadow-md">
-          <h3 className="text-xl font-medium text-gray-700">Total Supply</h3>
+        <div className={backgroundPage}>
+          <h3 className={textPage}>Total Supply</h3>
           <p className="text-lg text-gray-900">
             ${formatValuePrices(coinData?.total_supply) || "N/A"}
           </p>
         </div>
 
-        <div className="bg-gray-50 p-6 rounded-lg shadow-md">
-          <h3 className="text-xl font-medium text-gray-700">Max Supply</h3>
+        <div className={backgroundPage}>
+          <h3 className={textPage}>Max Supply</h3>
           <p className="text-lg text-gray-900">
             ${formatValuePrices(coinData?.max_supply) || "N/A"}
           </p>
         </div>
 
-        <div className="bg-gray-50 p-6 rounded-lg shadow-md">
-          <h3 className="text-xl font-medium text-gray-700">24h Change</h3>
+        <div className={backgroundPage}>
+          <h3 className={textPage}>24h Change</h3>
           <p
             className={`text-lg ${
               coinData?.quote?.USD?.percent_change_24h > 0
@@ -183,8 +189,8 @@ export default function Page({ params }: any) {
             {coinData?.quote?.USD?.percent_change_24h?.toFixed(2) || "N/A"}%
           </p>
         </div>
-        <div className="bg-gray-50 p-6 rounded-lg shadow-md">
-          <h3 className="text-xl font-medium text-gray-700">24h Volume</h3>
+        <div className={backgroundPage}>
+          <h3 className={textPage}>24h Volume</h3>
           <p className="text-lg text-gray-900">
             ${formatValuePrices(coinData?.quote?.USD?.volume_24h) || "N/A"}
           </p>

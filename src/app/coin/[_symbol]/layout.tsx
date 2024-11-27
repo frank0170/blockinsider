@@ -15,6 +15,7 @@ import {
   getCoinMetadata,
   getCoinNews,
 } from "@/api/coinMarketCap";
+import { useTheme } from "@/context/ThemeContext";
 import Hero from "@/components/coin/hero/hero";
 import { Tabs, Tab } from "@mui/material";
 import { useRouter, usePathname } from "next/navigation";
@@ -57,6 +58,7 @@ export default function RootLayout({
   children: React.ReactNode;
   params: any;
 }>) {
+  const { isDarkMode } = useTheme();
   const { _symbol } = use<any>(params);
   const [coin, setCoin] = useState<string>(_symbol);
   const [coinData, setCoinData] = useState<any>({});
@@ -182,15 +184,23 @@ export default function RootLayout({
     setDailyChanges(calculatedDailyChanges); // Update daily changes on calculation
   }, [calculatedDailyChanges]);
 
+  const backgroundPage = isDarkMode
+    ? "bg-[#454545] min-h-screen py-8 px-4"
+    : "bg-gray-100 min-h-screen py-8 px-4";
+
+  const divPage = isDarkMode
+    ? "max-w-7xl mx-auto bg-[#555454] rounded-lg shadow-lg p-8"
+    : "max-w-7xl mx-auto bg-white rounded-lg shadow-lg p-8";
+
   return (
-    <div className="bg-gray-100 min-h-screen py-8 px-4">
-      <div className="max-w-7xl mx-auto bg-white rounded-lg shadow-lg p-8">
+    <div className={backgroundPage}>
+      <div className={divPage}>
         <Hero {...{ coinData }} />
         <Tabs
           value={activeTab}
           onChange={handleChangeTab}
-          indicatorColor="primary"
-          textColor="primary"
+          indicatorColor="secondary"
+          textColor="secondary"
           variant="scrollable"
         >
           {TABS.map((tab) => (

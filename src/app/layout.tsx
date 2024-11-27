@@ -8,8 +8,8 @@ import { getTopCryptoList } from "@/api/coinMarketCap";
 import { ThemeProvider } from "../context/ThemeContext";
 import localFont from "next/font/local";
 import "./globals.css";
-import { useTheme } from "../context/ThemeContext";
 import Surfing from "@mui/icons-material/Surfing";
+import Header from "@/components/header/header";
 
 const roboto = Roboto({
   weight: ["300", "400", "500", "700"],
@@ -45,31 +45,7 @@ export default function RootLayout({
         <AppRouterCacheProvider>
           {/* <ThemeProvider theme={lightTheme}> */}
           <ThemeProvider>
-            <header className="bg-white-900 text-white py-4 px-6">
-              <div className="container mx-auto flex justify-between items-center">
-                <h1 className="text-xl font-bold text-black">BlockInsider</h1>
-
-                {/* <nav>
-              <ul className="flex space-x-4">
-                <li>
-                  <a href="/" className="hover:underline">
-                    Home
-                  </a>
-                </li>
-                <li>
-                  <a href="/about" className="hover:underline">
-                    About
-                  </a>
-                </li>
-                <li>
-                  <a href="/contact" className="hover:underline">
-                    Contact
-                  </a>
-                </li>
-              </ul>
-            </nav> */}
-              </div>
-            </header>
+            <Header />
             <hr style={{ height: "1px", background: "black" }} />
             <main>{children}</main>
           </ThemeProvider>

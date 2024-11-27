@@ -165,3 +165,24 @@ export const getCoinNews = async (coin: string | number, page: number = 1) => {
     throw error;
   }
 };
+
+export const getCoinPriceRange = async (
+  coin: string,
+  interval: string,
+  end: any
+) => {
+  const cacheKey = `coinPriceRange-${coin}-${interval}`;
+  const cachedData = getCache(cacheKey);
+  if (cachedData) return cachedData;
+
+  try {
+    const res = await axios.get(`${baseURL}/price-range`, {
+      params: { id: coin, interval, start: end },
+    });
+    setCache(cacheKey, res.data, 5 * 60 * 1000); // Cache for 5 minutes
+    return res.data;
+  } catch (error) {
+    console.error("Error fetching OHLCV data: ", error);
+    throw error;
+  }
+};
