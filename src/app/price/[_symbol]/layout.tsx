@@ -1,33 +1,64 @@
 "use client";
-
 import React, {
-  useEffect,
-  useState,
-  useCallback,
-  useMemo,
-  useLayoutEffect,
   use,
+  useState,
+  useEffect,
+  useCallback,
+  useLayoutEffect,
+  createContext,
+  useContext,
+  useMemo,
 } from "react";
-import { formatValuePrices } from "../../../../utils/numbers";
-import { CryptoChart } from "@/components/coin/graph/graph";
 import {
   getCoinData,
-  getCoinMarket,
+  getCoinOHLCV,
   getCoinMetadata,
   getCoinNews,
-  getCoinOHLCV,
 } from "@/api/coinMarketCap";
-import BitcoinCalendar from "@/components/coin/calendar/calendar";
-import BitcoinMonthlyCalendar from "@/components/coin/monthly/monthly";
-import LanguageIcon from "@mui/icons-material/Language";
-import ExploreIcon from "@mui/icons-material/Explore";
-import TopicIcon from "@mui/icons-material/Topic";
-import CodeIcon from "@mui/icons-material/Code";
-import { ExchangeList } from "@/components/coin/topCrypto";
-import Switch from "@mui/material/Switch";
-import CryptoNews from "@/components/coin/news/news";
+import { useTheme } from "@/context/ThemeContext";
+import Hero from "@/components/coin/hero/hero";
+import { Tabs, Tab } from "@mui/material";
+import { useRouter, usePathname } from "next/navigation";
 
-export default function Page({ params }: any) {
+type CoinDataContextType = {
+  coinData: any;
+  coinMetaData: any;
+  coinOHLCV: any[];
+  coinNews: any[];
+};
+
+// Create context with a default value
+const CoinDataContext = createContext<CoinDataContextType | undefined>(
+  undefined
+);
+
+// Hook to access context
+export const useCoinData = () => {
+  const context = useContext(CoinDataContext);
+  if (!context) {
+    throw new Error(
+      "useCoinData must be used within a CoinDataContext.Provider"
+    );
+  }
+  return context;
+};
+
+const TABS = [
+  { label: "Overview", value: "overview" },
+  { label: "Chart", value: "chart" },
+  { label: "Markets", value: "markets" },
+  { label: "News", value: "news" },
+  { label: "Calendar", value: "calendar" },
+];
+
+export default function RootLayout({
+  children,
+  params,
+}: Readonly<{
+  children: React.ReactNode;
+  params: any;
+}>) {
+  const { isDarkMode } = useTheme();
   const { _symbol } = use<any>(params);
   const [coin, setCoin] = useState<string>(_symbol);
   const [coinData, setCoinData] = useState<any>({});
@@ -37,6 +68,23 @@ export default function Page({ params }: any) {
   const [coinInterval, setCoinInterval] = useState<string>("1d");
   const [dailyChanges, setDailyChanges] = useState<any[]>([]);
   const [isChecked, setIsChecked] = useState(false);
+
+  const [activeTab, setActiveTab] = useState<string>("overview");
+  const pathname = usePathname();
+  const router = useRouter();
+
+  useEffect(() => {
+    // Extract tab from the URL
+    const currentTab = pathname.split("/").pop() || "overview";
+    setActiveTab(currentTab);
+
+    console.log("active", activeTab);
+  }, [pathname]);
+
+  const handleChangeTab = (event: React.SyntheticEvent, newValue: string) => {
+    setActiveTab(newValue);
+    router.push(`/price/${_symbol}/${newValue}`);
+  };
 
   const handleChange = (event: any) => {
     setIsChecked(event.target.checked);
@@ -56,7 +104,12 @@ export default function Page({ params }: any) {
 
       try {
         const res = await getCoinData(coin, "USD");
-        setCoinData(res.data[coin] || {});
+
+        const firstKey = Object.keys(res.data)[0];
+
+        setCoinData(res.data[firstKey] || {});
+
+        console.log("coin", coinData);
       } catch (error) {
         console.error("Error fetching coin data:", error);
       }
@@ -93,7 +146,9 @@ export default function Page({ params }: any) {
           getCoinNews(coinData.symbol),
         ]);
 
-        setCoinMetaData(metadataRes.data[coinId]);
+        const firstKey = Object.keys(metadataRes.data)[0];
+
+        setCoinMetaData(metadataRes.data[firstKey]);
         setCoinNews(newsRes.results);
 
         const chartData = ohlcvRes.data?.quotes?.map((item: any) => ({
@@ -136,38 +191,31 @@ export default function Page({ params }: any) {
     setDailyChanges(calculatedDailyChanges); // Update daily changes on calculation
   }, [calculatedDailyChanges]);
 
+  const backgroundPage = isDarkMode
+    ? "bg-[#454545] min-h-screen py-8 px-4"
+    : "bg-gray-100 min-h-screen py-8 px-4";
+
+  const divPage = isDarkMode
+    ? "max-w-7xl mx-auto bg-[#555454] rounded-lg shadow-lg p-8"
+    : "max-w-7xl mx-auto bg-white rounded-lg shadow-lg p-8";
+
   return (
-    <div className="w-full">
-      {/* Price chart */}
-      <div className="bg-white p-6 rounded-lg shadow-md">
-        <h2 className="text-xl font-medium text-gray-700 mb-4">
-          Price Chart - daily
-        </h2>
-
-        {/* <div className="flex space-x-4 mb-4">
-            <button
-              className="w-[40px] rounded-lg px-2 py-1 border border-black"
-              onClick={() => setCoinInterval("7d")}
-            >
-              1W
-            </button>
-            <button
-              className="w-[40px] rounded-lg px-2 py-1 border border-black"
-              onClick={() => setCoinInterval("1d")}
-            >
-              1D
-            </button>
-            <button
-              className="w-[40px] rounded-lg px-2 py-1 border border-black"
-              onClick={() => setCoinInterval("1h")}
-            >
-              1H
-            </button>
-          </div> */}
-
-        <div className="h-[400px] bg-gray-200 rounded-lg">
-          <CryptoChart data={coinOHLCV} />
-        </div>
+    <div className={backgroundPage}>
+      <div className={divPage}>
+        <Hero {...{ coinData }} />
+        <Tabs
+          value={activeTab}
+          onChange={handleChangeTab}
+          indicatorColor="secondary"
+          textColor="secondary"
+          variant="scrollable"
+        >
+          {TABS.map((tab) => (
+            <Tab key={tab.value} label={tab.label} value={tab.value} />
+          ))}
+        </Tabs>
+        <br />
+        {children}
       </div>
     </div>
   );

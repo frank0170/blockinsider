@@ -37,7 +37,10 @@ const BitcoinCard = () => {
 
       try {
         const res = await getCoinData(coin, "USD");
-        setCoinData(res.data[coin] || {});
+
+        const firstKey = Object.keys(res.data)[0];
+
+        setCoinData(res.data[firstKey] || {});
       } catch (error) {
         console.error("Error fetching coin data:", error);
       }

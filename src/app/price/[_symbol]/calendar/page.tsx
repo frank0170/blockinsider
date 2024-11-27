@@ -26,11 +26,9 @@ import CodeIcon from "@mui/icons-material/Code";
 import { ExchangeList } from "@/components/coin/topCrypto";
 import Switch from "@mui/material/Switch";
 import CryptoNews from "@/components/coin/news/news";
-import { useTheme } from "@/context/ThemeContext";
 
 export default function Page({ params }: any) {
   const { _symbol } = use<any>(params);
-  const { isDarkMode } = useTheme();
   const [coin, setCoin] = useState<string>(_symbol);
   const [coinData, setCoinData] = useState<any>({});
   const [coinMetaData, setCoinMetaData] = useState<any>({});
@@ -58,7 +56,9 @@ export default function Page({ params }: any) {
 
       try {
         const res = await getCoinData(coin, "USD");
-        setCoinData(res.data[coin] || {});
+        const firstKey = Object.keys(res.data)[0];
+
+        setCoinData(res.data[firstKey] || {});
       } catch (error) {
         console.error("Error fetching coin data:", error);
       }
@@ -95,7 +95,9 @@ export default function Page({ params }: any) {
           getCoinNews(coinData.symbol),
         ]);
 
-        setCoinMetaData(metadataRes.data[coinId]);
+        const firstKey = Object.keys(metadataRes.data)[0];
+
+        setCoinMetaData(metadataRes.data[firstKey]);
         setCoinNews(newsRes.results);
 
         const chartData = ohlcvRes.data?.quotes?.map((item: any) => ({
@@ -138,99 +140,9 @@ export default function Page({ params }: any) {
     setDailyChanges(calculatedDailyChanges); // Update daily changes on calculation
   }, [calculatedDailyChanges]);
 
-  const backgroundPage = isDarkMode
-    ? "bg-[#454545] p-6 rounded-lg shadow-md"
-    : "bg-gray-50 p-6 rounded-lg shadow-md";
-  const textPage = isDarkMode
-    ? "text-xl font-medium text-[#e0e0e0]"
-    : "text-xl font-medium text-gray-700";
   return (
     <div className="w-full">
       {/* Main container */}
-
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-8">
-        <div className={backgroundPage}>
-          <h3 className={textPage}>Market Cap</h3>
-          <p className="text-lg text-gray-900">
-            ${formatValuePrices(coinData?.quote?.USD?.market_cap) || "N/A"}
-          </p>
-        </div>
-
-        <div className={backgroundPage}>
-          <h3 className={textPage}>Circulating Supply</h3>
-          <p className="text-lg text-gray-900">
-            ${formatValuePrices(coinData?.circulating_supply) || "N/A"}
-          </p>
-        </div>
-
-        <div className={backgroundPage}>
-          <h3 className={textPage}>Total Supply</h3>
-          <p className="text-lg text-gray-900">
-            ${formatValuePrices(coinData?.total_supply) || "N/A"}
-          </p>
-        </div>
-
-        <div className={backgroundPage}>
-          <h3 className={textPage}>Max Supply</h3>
-          <p className="text-lg text-gray-900">
-            ${formatValuePrices(coinData?.max_supply) || "N/A"}
-          </p>
-        </div>
-
-        <div className={backgroundPage}>
-          <h3 className={textPage}>24h Change</h3>
-          <p
-            className={`text-lg ${
-              coinData?.quote?.USD?.percent_change_24h > 0
-                ? "text-green-600"
-                : "text-red-600"
-            }`}
-          >
-            {coinData?.quote?.USD?.percent_change_24h?.toFixed(2) || "N/A"}%
-          </p>
-        </div>
-        <div className={backgroundPage}>
-          <h3 className={textPage}>24h Volume</h3>
-          <p className="text-lg text-gray-900">
-            ${formatValuePrices(coinData?.quote?.USD?.volume_24h) || "N/A"}
-          </p>
-        </div>
-      </div>
-
-      {/* Price chart */}
-      <br />
-      <div className="bg-white p-6 rounded-lg shadow-md">
-        <h2 className="text-xl font-medium text-gray-700 mb-4">
-          Price Chart - daily
-        </h2>
-
-        {/* <div className="flex space-x-4 mb-4">
-            <button
-              className="w-[40px] rounded-lg px-2 py-1 border border-black"
-              onClick={() => setCoinInterval("7d")}
-            >
-              1W
-            </button>
-            <button
-              className="w-[40px] rounded-lg px-2 py-1 border border-black"
-              onClick={() => setCoinInterval("1d")}
-            >
-              1D
-            </button>
-            <button
-              className="w-[40px] rounded-lg px-2 py-1 border border-black"
-              onClick={() => setCoinInterval("1h")}
-            >
-              1H
-            </button>
-          </div> */}
-
-        <div className="h-[400px] bg-gray-200 rounded-lg">
-          <CryptoChart data={coinOHLCV} />
-        </div>
-      </div>
-
-      <br />
 
       <div className="bg-white p-6 rounded-lg shadow-md">
         <h2 className="text-xl font-medium text-gray-700 mb-4">
@@ -248,36 +160,6 @@ export default function Page({ params }: any) {
         <BitcoinMonthlyCalendar data={dailyChanges} />
       </div>
       <br />
-
-      <div className="bg-white p-6 rounded-lg shadow-md">
-        <div className="flex justify-between items-center">
-          <h2 className="text-xl font-medium text-gray-700 mb-4">
-            {coinData?.symbol} Markets
-          </h2>
-          <div>
-            <span>Spot</span>
-            <Switch
-              checked={isChecked} // Controlled component
-              onChange={handleChange} // Updates state when toggled
-              color="default"
-            />
-            <span>Futures</span>
-          </div>
-        </div>
-        <ExchangeList
-          coinId={coinData?.id}
-          type={!isChecked ? "spot" : "derivatives"}
-          overview
-        />
-      </div>
-
-      {/* News Section */}
-      <div className="mt-8">
-        <h2 className="text-2xl font-semibold text-gray-800 mb-4">
-          Latest News
-        </h2>
-        <CryptoNews news={coinNews} symbol={coinData?.symbol} overview />
-      </div>
     </div>
   );
 }

@@ -56,7 +56,8 @@ export default function Page({ params }: any) {
 
       try {
         const res = await getCoinData(coin, "USD");
-        setCoinData(res.data[coin] || {});
+        const firstKey = Object.keys(res.data)[0];
+        setCoinData(res.data[firstKey] || {});
       } catch (error) {
         console.error("Error fetching coin data:", error);
       }
@@ -93,7 +94,9 @@ export default function Page({ params }: any) {
           getCoinNews(coinData.symbol),
         ]);
 
-        setCoinMetaData(metadataRes.data[coinId]);
+        const firstKey = Object.keys(metadataRes.data)[0];
+
+        setCoinMetaData(metadataRes.data[firstKey]);
         setCoinNews(newsRes.results);
 
         const chartData = ohlcvRes.data?.quotes?.map((item: any) => ({
@@ -138,26 +141,36 @@ export default function Page({ params }: any) {
 
   return (
     <div className="w-full">
+      {/* Price chart */}
       <div className="bg-white p-6 rounded-lg shadow-md">
-        <div className="flex justify-between items-center">
-          <h2 className="text-xl font-medium text-gray-700 mb-4">
-            {coinData?.symbol} Markets
-          </h2>
-          <div>
-            <span>Spot</span>
-            <Switch
-              checked={isChecked} // Controlled component
-              onChange={handleChange} // Updates state when toggled
-              color="default"
-            />
-            <span>Futures</span>
-          </div>
+        <h2 className="text-xl font-medium text-gray-700 mb-4">
+          Price Chart - daily
+        </h2>
+
+        {/* <div className="flex space-x-4 mb-4">
+            <button
+              className="w-[40px] rounded-lg px-2 py-1 border border-black"
+              onClick={() => setCoinInterval("7d")}
+            >
+              1W
+            </button>
+            <button
+              className="w-[40px] rounded-lg px-2 py-1 border border-black"
+              onClick={() => setCoinInterval("1d")}
+            >
+              1D
+            </button>
+            <button
+              className="w-[40px] rounded-lg px-2 py-1 border border-black"
+              onClick={() => setCoinInterval("1h")}
+            >
+              1H
+            </button>
+          </div> */}
+
+        <div className="h-[400px] bg-gray-200 rounded-lg">
+          <CryptoChart data={coinOHLCV} />
         </div>
-        <br />
-        <ExchangeList
-          coinId={coinData?.id}
-          type={!isChecked ? "spot" : "derivatives"}
-        />
       </div>
     </div>
   );

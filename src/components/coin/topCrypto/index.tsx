@@ -81,7 +81,7 @@ export const ExchangeList = ({
                     </div>
                   </td>
                   <td className="py-2 px-4 text-gray-800">
-                    <Link href={`/coin/${item.symbol}`}>
+                    <Link href={`/price/${item.symbol}`}>
                       <div className="flex flex-row items-center gap-[8px]">
                         <span className="text-500">{item?.market_pair}</span>
                       </div>
@@ -133,7 +133,7 @@ export const ExchangeList = ({
                     </div>
                   </td>
                   <td className="py-2 px-4 text-gray-800">
-                    <Link href={`/coin/${item.symbol}`}>
+                    <Link href={`/price/${item.symbol}`}>
                       <div className="flex flex-row items-center gap-[8px]">
                         <span className="text-500">{item?.market_pair}</span>
                       </div>

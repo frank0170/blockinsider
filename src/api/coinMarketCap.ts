@@ -87,7 +87,7 @@ export const getCoinData = async (coin: string, currency: string) => {
 
   try {
     const res = await axios.get(`${baseURL}/coin-data`, {
-      params: { symbol: coin, convert: currency },
+      params: { slug: coin, convert: currency },
     });
     setCache(cacheKey, res.data, 5 * 60 * 1000); // Cache for 5 minutes
     return res.data;

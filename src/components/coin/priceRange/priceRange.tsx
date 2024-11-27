@@ -1,5 +1,5 @@
 // pages/index.js
-import { useState, useEffect } from "react";
+import { useState, useEffect, use } from "react";
 import { getCoinPriceRange } from "@/api/coinMarketCap";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import "./price.css";
@@ -37,7 +37,11 @@ export const PriceRange = ({ coinData, currency = "USD" }) => {
     console.log("start", startDateString);
 
     try {
-      const response = await getCoinPriceRange("1", "daily", startDateString);
+      const response = await getCoinPriceRange(
+        coinData.id,
+        "daily",
+        startDateString
+      );
 
       const prices = response.data.quotes;
 

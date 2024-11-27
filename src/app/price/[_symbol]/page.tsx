@@ -56,7 +56,9 @@ export default function Page({ params }: any) {
 
       try {
         const res = await getCoinData(coin, "USD");
-        setCoinData(res.data[coin] || {});
+        const firstKey = Object.keys(res.data)[0];
+
+        setCoinData(res.data[firstKey] || {});
       } catch (error) {
         console.error("Error fetching coin data:", error);
       }
@@ -93,7 +95,9 @@ export default function Page({ params }: any) {
           getCoinNews(coinData.symbol),
         ]);
 
-        setCoinMetaData(metadataRes.data[coinId]);
+        const firstKey = Object.keys(metadataRes.data)[0];
+
+        setCoinMetaData(metadataRes.data[firstKey]);
         setCoinNews(newsRes.results);
 
         const chartData = ohlcvRes.data?.quotes?.map((item: any) => ({
