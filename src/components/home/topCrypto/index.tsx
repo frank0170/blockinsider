@@ -77,7 +77,7 @@ export const TopCryptoList = () => {
             >
               <td className="py-2 px-4 text-[#a5a5a5]">#{item.cmc_rank}</td>
               <td className="py-2 px-4 text-gray-800">
-                <Link href={`/coin/${item.symbol}/overview`}>
+                <Link href={`/coin/${item.symbol}/overview`} prefetch={true}>
                   <div className="flex flex-row items-center gap-[8px]">
                     <img
                       src={`https://s2.coinmarketcap.com/static/img/coins/64x64/${item.id}.png`}

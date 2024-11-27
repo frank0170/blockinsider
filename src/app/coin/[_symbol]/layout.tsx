@@ -5,6 +5,8 @@ import React, {
   useEffect,
   useCallback,
   useLayoutEffect,
+  createContext,
+  useContext,
   useMemo,
 } from "react";
 import {
@@ -16,6 +18,30 @@ import {
 import Hero from "@/components/coin/hero/hero";
 import { Tabs, Tab } from "@mui/material";
 import { useRouter, usePathname } from "next/navigation";
+
+type CoinDataContextType = {
+  coinData: any;
+  coinMetaData: any;
+  coinOHLCV: any[];
+  coinNews: any[];
+};
+
+// Create context with a default value
+const CoinDataContext = createContext<CoinDataContextType | undefined>(
+  undefined
+);
+
+// Hook to access context
+export const useCoinData = () => {
+  const context = useContext(CoinDataContext);
+  if (!context) {
+    throw new Error(
+      "useCoinData must be used within a CoinDataContext.Provider"
+    );
+  }
+  return context;
+};
+
 const TABS = [
   { label: "Overview", value: "overview" },
   { label: "Chart", value: "chart" },
