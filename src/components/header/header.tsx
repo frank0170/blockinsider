@@ -50,6 +50,19 @@ const Header = () => {
             </h1>
           </div>
 
+          <div
+            onClick={() => router.push(`/exchanges`)}
+            className="cursor-pointer"
+          >
+            <h1
+              className={`text-lg font-500 text-${
+                isDarkMode ? "white" : "black"
+              }`}
+            >
+              Exchanges
+            </h1>
+          </div>
+
           <div onClick={toggleTheme}>
             <Surfing sx={{ color: isDarkMode ? "white" : "black" }} />
           </div>

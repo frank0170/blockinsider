@@ -186,3 +186,18 @@ export const getCoinPriceRange = async (
     throw error;
   }
 };
+
+export const getExchanges = async () => {
+  const cacheKey = `exchanges-list`;
+  const cachedData = getCache(cacheKey);
+  if (cachedData) return cachedData;
+
+  try {
+    const res = await axios.get(`${baseURL}/exchanges`, {});
+    setCache(cacheKey, res.data, 5 * 60 * 1000); // Cache for 5 minutes
+    return res.data;
+  } catch (error) {
+    console.error("Error fetching coin market: ", error);
+    throw error;
+  }
+};

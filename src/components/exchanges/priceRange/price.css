@@ -1,0 +1,96 @@
+.widget {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  background-color: #fff;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.price-range {
+  margin: 20px 0;
+  width: 100%;
+}
+
+.price-bar-container {
+  position: relative;
+  width: 100%;
+  height: 60px; /* Increased height to accommodate the arrow and price */
+  padding: 10px 0;
+}
+
+.price-bar {
+  background-color: #ff3939;
+  height: 10px;
+  position: relative;
+  border-radius: 5px;
+}
+
+.filled-bar {
+  background-color: #0f7d00;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 0%; /* Dynamically adjusted based on current price */
+  border-radius: 5px 0 0 5px; /* Rounded edges on the left */
+}
+
+.price-arrow {
+  position: absolute;
+  top: -35px; /* Place the arrow and price above the bar */
+  transform: translateX(-50%);
+  text-align: center;
+}
+
+.current-price {
+  font-size: 16px;
+  position: relative;
+  top: 5px;
+}
+
+.arrow {
+  position: relative;
+  top: -6px;
+  height: 10px;
+}
+
+.min-max {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 5px;
+}
+
+.min,
+.max {
+  font-weight: 500;
+}
+
+.timeline {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 10px;
+}
+
+.timeline button {
+  padding: 8px 12px;
+  background-color: #3498db;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.timeline button:hover {
+  background-color: #2980b9;
+}
