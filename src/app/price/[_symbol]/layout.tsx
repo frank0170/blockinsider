@@ -27,12 +27,10 @@ type CoinDataContextType = {
   coinNews: any[];
 };
 
-// Create context with a default value
 const CoinDataContext = createContext<CoinDataContextType | undefined>(
   undefined
 );
 
-// Hook to access context
 export const useCoinData = () => {
   const context = useContext(CoinDataContext);
   if (!context) {
@@ -44,7 +42,7 @@ export const useCoinData = () => {
 };
 
 const TABS = [
-  { label: "Overview", value: "overview" },
+  { label: "Overview", value: "" },
   { label: "Chart", value: "chart" },
   { label: "Markets", value: "markets" },
   { label: "News", value: "news" },
@@ -69,21 +67,25 @@ export default function RootLayout({
   const [dailyChanges, setDailyChanges] = useState<any[]>([]);
   const [isChecked, setIsChecked] = useState(false);
 
-  const [activeTab, setActiveTab] = useState<string>("overview");
+  const [activeTab, setActiveTab] = useState<string>("");
   const pathname = usePathname();
   const router = useRouter();
 
   useEffect(() => {
-    // Extract tab from the URL
-    const currentTab = pathname.split("/").pop() || "overview";
-    setActiveTab(currentTab);
+    // Extract tab from the URL, trim spaces, and validate against TABS
+    const currentTab = pathname.split("/").pop()?.trim() || "";
 
-    console.log("active", activeTab);
+    // Ensure the tab value exists in the TABS array, default to Overview (empty string)
+    const isValidTab = TABS.some((tab) => tab.value === currentTab);
+    setActiveTab(isValidTab ? currentTab : "");
   }, [pathname]);
 
   const handleChangeTab = (event: React.SyntheticEvent, newValue: string) => {
     setActiveTab(newValue);
-    router.push(`/price/${_symbol}/${newValue}`);
+
+    // Append tab to URL only if it's not the default (Overview)
+    const tabPath = newValue ? `/${newValue}` : "";
+    router.push(`/price/${_symbol}${tabPath}`);
   };
 
   const handleChange = (event: any) => {
