@@ -5,7 +5,7 @@ const globalCard = "rounded-[10px] p-[16px] w-[438px] h-[236px]";
 const globalTitle = "text-black font-semibold text-[20px]";
 
 const BitcoinCard = () => {
-  const coin = "BTC";
+  const coin = "bitcoin";
 
   const [coinData, setCoinData] = useState<any>({});
   const [coinOHLCV, setCoinOHLCV] = useState<any[]>([]);
@@ -40,6 +40,7 @@ const BitcoinCard = () => {
 
         const firstKey = Object.keys(res.data)[0];
 
+        console.log("rez", res);
         setCoinData(res.data[firstKey] || {});
       } catch (error) {
         console.error("Error fetching coin data:", error);

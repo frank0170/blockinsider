@@ -11,7 +11,7 @@ import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 export const TopCryptoList = () => {
   const { isDarkMode } = useTheme();
   const [currentPage, setCurrentPage] = useState(1);
-  const [selectedOption, setSelectedOption] = useState<number>(10);
+  const [selectedOption, setSelectedOption] = useState<number>(50);
   const options = [5, 10, 50, 100];
 
   const [coinsList, setCoinsList] = useState([]);
@@ -26,7 +26,7 @@ export const TopCryptoList = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const res = await getTopCryptoList();
+      const res = await getTopCryptoList(1, 300);
       setCoinsList(res.data);
 
       console.log(res.data);

@@ -87,14 +87,14 @@ export default function Page({ params }: any) {
   // Fetch OHLCV, metadata, and news data when coinData or coinInterval changes
   useEffect(() => {
     const fetchCoinOHLCV = async () => {
-      const coinId = coin;
+      const coinId = coinData?.id;
       if (!coinId || !coinInterval) return;
 
       try {
         const [ohlcvRes, metadataRes, newsRes] = await Promise.all([
-          getCoinOHLCV(coinData.id, coinInterval, 1000),
-          getCoinMetadata(coinData.id),
-          getCoinNews(coinData.symbol),
+          getCoinOHLCV(coinId, coinInterval, 1000),
+          getCoinMetadata(coinId),
+          getCoinNews(coinData?.symbol),
         ]);
 
         const firstKey = Object.keys(metadataRes.data)[0];

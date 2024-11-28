@@ -17,7 +17,7 @@ export const PriceRange = ({ coinData, currency = "USD" }) => {
   const fetchPriceData = async (timeframe) => {
     setLoading(true);
 
-    if (!coinData) return;
+    if (!coinData.id) return;
 
     // Set the start and end dates for different timeframes (1 day, 1 week, 1 month, 1 year)
     const startDate = new Date();

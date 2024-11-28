@@ -202,7 +202,7 @@ export default function RootLayout({
   return (
     <div className={backgroundPage}>
       <div className={divPage}>
-        <Hero {...{ coinData }} />
+        <Hero {...{ coinData, coinMetaData }} />
         <Tabs
           value={activeTab}
           onChange={handleChangeTab}
