@@ -94,7 +94,11 @@ export const TopExchangeList = ({ type }: any) => {
     : "hover:bg-gray-100 h-[80px]";
 
   return (
-    <div className={`w-full bg-[#${isDarkMode ? "454545" : "000000"}]`}>
+    <div
+      className={`w-full bg-[#${
+        isDarkMode ? "454545" : "000000"
+      }] p-6 rounded-lg shadow-md`}
+    >
       <table className="w-full border-collapse text-left">
         <thead className="border-b">
           <tr>

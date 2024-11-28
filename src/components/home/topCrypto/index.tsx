@@ -69,7 +69,11 @@ export const TopCryptoList = () => {
     : "hover:bg-gray-100 h-[80px]";
 
   return (
-    <div className={`w-full bg-[#${isDarkMode ? "454545" : "000000"}]`}>
+    <div
+      className={`w-full bg-[#${
+        isDarkMode ? "454545" : "000000"
+      }] p-6 rounded-lg shadow-md`}
+    >
       <table className="w-full border-collapse text-left">
         <thead className="border-b">
           <tr>
@@ -91,7 +95,7 @@ export const TopCryptoList = () => {
             >
               <td className="py-2 px-4 text-[#a5a5a5]">#{item.cmc_rank}</td>
               <td className={tableItem}>
-                <Link href={`/price/${item.slug}/overview`} prefetch={true}>
+                <Link href={`/price/${item.slug}`} prefetch={true}>
                   <div className="flex flex-row items-center gap-[8px]">
                     <img
                       src={`https://s2.coinmarketcap.com/static/img/coins/64x64/${item.id}.png`}

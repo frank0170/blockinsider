@@ -26,6 +26,7 @@ import CodeIcon from "@mui/icons-material/Code";
 import { ExchangeList } from "@/components/coin/topCrypto";
 import Switch from "@mui/material/Switch";
 import CryptoNews from "@/components/coin/news/news";
+import { useTheme } from "@/context/ThemeContext";
 
 export default function Page({ params }: any) {
   const { _symbol } = use<any>(params);
@@ -37,6 +38,7 @@ export default function Page({ params }: any) {
   const [coinInterval, setCoinInterval] = useState<string>("1d");
   const [dailyChanges, setDailyChanges] = useState<any[]>([]);
   const [isChecked, setIsChecked] = useState(false);
+  const { isDarkMode } = useTheme();
 
   const handleChange = (event: any) => {
     setIsChecked(event.target.checked);
@@ -144,19 +146,21 @@ export default function Page({ params }: any) {
     <div className="w-full">
       {/* Main container */}
 
-      <div className="bg-white p-6 rounded-lg shadow-md">
-        <h2 className="text-xl font-medium text-gray-700 mb-4">
-          Last 30 days Calendar
-        </h2>
+      <div
+        className={`          isDarkMode ? "bg-[#555454]" : "bg-white"
+ p-6 rounded-lg shadow-md`}
+      >
+        <h2 className="text-xl font-medium  mb-4">Last 30 days Calendar</h2>
         <BitcoinCalendar data={dailyChanges} />
       </div>
 
       <br />
 
-      <div className="bg-white p-6 rounded-lg shadow-md">
-        <h2 className="text-xl font-medium text-gray-700 mb-4">
-          Monthly Calendar
-        </h2>
+      <div
+        className={`          isDarkMode ? "bg-[#555454]" : "bg-white"
+ p-6 rounded-lg shadow-md`}
+      >
+        <h2 className="text-xl font-medium  mb-4">Monthly Calendar</h2>
         <BitcoinMonthlyCalendar data={dailyChanges} />
       </div>
       <br />

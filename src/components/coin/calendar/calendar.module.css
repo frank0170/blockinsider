@@ -1,9 +1,19 @@
-.calendar {
+.calendarL {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
   gap: 10px;
   padding: 20px;
   background-color: #f9f9f9;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.calendarD {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 10px;
+  padding: 20px;
+  background-color: #555454;
   border-radius: 10px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
@@ -17,9 +27,14 @@
   font-weight: bold;
 }
 
-.green {
+.greenL {
   background-color: rgba(0, 255, 0, 0.2);
   color: green;
+}
+
+.greenD {
+  background-color: rgba(0, 255, 0, 0.2);
+  color: rgb(90, 255, 90);
 }
 
 .red {

@@ -1,4 +1,6 @@
 // pages/index.js
+"use client";
+
 import { useState, useEffect, use } from "react";
 import { getCoinPriceRange } from "@/api/coinMarketCap";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";

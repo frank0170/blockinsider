@@ -6,6 +6,7 @@ import { Pagination } from "@/app/shared/pagination/pagination";
 import { Dropdown } from "@/app/shared/dropdown/dropdown";
 import ArrowDropUpIcon from "@mui/icons-material/ArrowDropUp";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
+import { useTheme } from "@/context/ThemeContext";
 
 export const ExchangeList = ({
   coinId,
@@ -14,6 +15,7 @@ export const ExchangeList = ({
 }: any) => {
   const [coinMarket, setCoinMarket] = useState<any>([]);
   const [marketType, setMarketType] = useState<any>([]);
+  const { isDarkMode } = useTheme();
 
   useEffect(() => {
     if (!coinId) return;
@@ -47,20 +49,25 @@ export const ExchangeList = ({
   }, [type, coinMarket]);
 
   return (
-    <div className="w-full bg-white">
+    <div
+      className={`w-full bg-[#${
+        isDarkMode ? "454545" : "000000"
+      }] p-6 rounded-lg shadow-md`}
+    >
+      {" "}
       <table className="w-full border-collapse text-left">
         <thead className="border-b">
           <tr>
-            <th className="py-2 px-4 text-gray-700 font-medium">Exchange</th>
-            <th className="py-2 px-4 text-gray-700 font-medium">Pair</th>
-            <th className="py-2 px-4 text-gray-700 font-medium">Last Price</th>
+            <th className="py-2 px-4  font-medium">Exchange</th>
+            <th className="py-2 px-4 font-medium">Pair</th>
+            <th className="py-2 px-4 font-medium">Last Price</th>
 
             {/* <th className="py-2 px-4 text-gray-700 font-medium">24h %</th>
             <th className="py-2 px-4 text-gray-700 font-medium">24h High</th>
             <th className="py-2 px-4 text-gray-700 font-medium">24h Low</th>
             <th className="py-2 px-4 text-gray-700 font-medium">Spread</th> */}
 
-            <th className="py-2 px-4 text-gray-700 font-medium">Volume</th>
+            <th className="py-2 px-4  font-medium">Volume</th>
           </tr>
         </thead>
         <tbody>
@@ -80,14 +87,14 @@ export const ExchangeList = ({
                       {item?.exchange?.name}
                     </div>
                   </td>
-                  <td className="py-2 px-4 text-gray-800">
+                  <td className="py-2 px-4 ">
                     <Link href={`/price/${item.symbol}`}>
                       <div className="flex flex-row items-center gap-[8px]">
                         <span className="text-500">{item?.market_pair}</span>
                       </div>
                     </Link>
                   </td>
-                  <td className="py-2 px-4 text-gray-800">
+                  <td className="py-2 px-4 ">
                     ${item?.quote?.USD?.price?.toLocaleString()}
                   </td>
 
@@ -101,7 +108,7 @@ export const ExchangeList = ({
                 ${item.quote?.USD?.market_cap.toLocaleString()}
               </td> */}
 
-                  <td className="py-2 px-4 text-gray-800">
+                  <td className="py-2 px-4 ">
                     <div className="flex flex-col">
                       <span>
                         $
@@ -132,14 +139,14 @@ export const ExchangeList = ({
                       {item?.exchange?.name}
                     </div>
                   </td>
-                  <td className="py-2 px-4 text-gray-800">
+                  <td className="py-2 px-4 ">
                     <Link href={`/price/${item.symbol}`}>
                       <div className="flex flex-row items-center gap-[8px]">
                         <span className="text-500">{item?.market_pair}</span>
                       </div>
                     </Link>
                   </td>
-                  <td className="py-2 px-4 text-gray-800">
+                  <td className="py-2 px-4 ">
                     ${item?.quote?.USD?.price?.toLocaleString()}
                   </td>
 
@@ -153,7 +160,7 @@ export const ExchangeList = ({
                 ${item.quote?.USD?.market_cap.toLocaleString()}
               </td> */}
 
-                  <td className="py-2 px-4 text-gray-800">
+                  <td className="py-2 px-4 ">
                     <div className="flex flex-col">
                       <span>
                         $

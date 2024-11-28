@@ -54,9 +54,7 @@ export default function Page({ params }: any) {
     <div className="w-full">
       {/* Main container */}
       <div className="mt-8">
-        <h2 className="text-2xl font-semibold text-gray-800 mb-4">
-          Latest News
-        </h2>
+        <h2 className="text-2xl font-semibold  mb-4">Latest News</h2>
         <CryptoNews news={coinNews} symbol={coin} />
 
         {/* Load More Button */}

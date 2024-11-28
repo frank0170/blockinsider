@@ -26,6 +26,7 @@ import CodeIcon from "@mui/icons-material/Code";
 import { ExchangeList } from "@/components/coin/topCrypto";
 import Switch from "@mui/material/Switch";
 import CryptoNews from "@/components/coin/news/news";
+import { useTheme } from "@/context/ThemeContext";
 
 export default function Page({ params }: any) {
   const { _symbol } = use<any>(params);
@@ -37,6 +38,8 @@ export default function Page({ params }: any) {
   const [coinInterval, setCoinInterval] = useState<string>("1d");
   const [dailyChanges, setDailyChanges] = useState<any[]>([]);
   const [isChecked, setIsChecked] = useState(false);
+
+  const { isDarkMode } = useTheme();
 
   const handleChange = (event: any) => {
     setIsChecked(event.target.checked);
@@ -142,9 +145,13 @@ export default function Page({ params }: any) {
 
   return (
     <div className="w-full">
-      <div className="bg-white p-6 rounded-lg shadow-md">
+      <div
+        className={`${
+          isDarkMode ? "bg-[#555454]" : "bg-white"
+        } p-6 rounded-lg shadow-md`}
+      >
         <div className="flex justify-between items-center">
-          <h2 className="text-xl font-medium text-gray-700 mb-4">
+          <h2 className="text-xl font-medium  mb-4">
             {coinData?.symbol} Markets
           </h2>
           <div>

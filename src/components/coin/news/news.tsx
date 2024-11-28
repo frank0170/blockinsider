@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Typography, Link } from "@mui/material";
+import { useTheme } from "@/context/ThemeContext";
 
 type NewsItem = {
   title: string;
@@ -26,6 +27,7 @@ const CryptoNews = ({
 }) => {
   const [newsArray, setNewsArray] = useState<TransformedNewsItem[]>([]);
   const [loading, setLoading] = useState(true);
+  const { isDarkMode } = useTheme();
 
   function formatDate(publishedAt: string) {
     const publishedDate = new Date(publishedAt);
@@ -59,7 +61,11 @@ const CryptoNews = ({
   }, [symbol, news]);
 
   return (
-    <div className="bg-white p-6 rounded-lg shadow-md">
+    <div
+      className={`w-full bg-[#${
+        isDarkMode ? "454545" : "000000"
+      }] p-6 rounded-lg shadow-md`}
+    >
       {loading ? (
         <Typography>Loading...</Typography>
       ) : (
@@ -67,9 +73,14 @@ const CryptoNews = ({
           {newsArray.map((item, index) => (
             <div
               key={index}
-              className="bg-gray-100 p-4 rounded-lg shadow-sm hover:shadow-md transition-shadow"
+              className={`bg-[#${
+                isDarkMode ? "555454" : "000000"
+              }] p-4 rounded-lg shadow-sm hover:shadow-md transition-shadow`}
             >
-              <Typography variant="subtitle1" className="text-blue-600">
+              <Typography
+                variant="subtitle1"
+                className={`text-blue-${isDarkMode ? "100" : "600"}`}
+              >
                 <Link
                   href={item.url}
                   target="_blank"
@@ -79,7 +90,7 @@ const CryptoNews = ({
                   {item.title}
                 </Link>
               </Typography>
-              <Typography variant="body2" className="text-gray-600">
+              <Typography variant="body2" className="">
                 {item.source} - {item.date}
               </Typography>
             </div>

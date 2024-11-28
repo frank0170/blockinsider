@@ -1,5 +1,6 @@
 // components/coin/calendar/calendar.tsx
 import React from "react";
+import { useTheme } from "@/context/ThemeContext";
 
 interface CalendarData {
   date: string;
@@ -11,6 +12,7 @@ interface BitcoinCalendarProps {
 }
 
 const BitcoinCalendar: React.FC<BitcoinCalendarProps> = ({ data }) => {
+  const { isDarkMode } = useTheme();
   const today = new Date();
   const daysInMonth = new Date(
     today.getFullYear(),

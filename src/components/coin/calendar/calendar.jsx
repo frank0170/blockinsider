@@ -1,9 +1,11 @@
 "use client";
 
 import React from "react";
+import { useTheme } from "@/context/ThemeContext";
 import styles from "./calendar.module.css";
 
 const BitcoinCalendar = ({ data }) => {
+  const { isDarkMode } = useTheme();
   const today = new Date();
   const startDay = new Date();
   startDay.setDate(today.getDate() - 34);
@@ -23,13 +25,15 @@ const BitcoinCalendar = ({ data }) => {
   }
 
   return (
-    <div className={styles.calendar}>
+    <div className={isDarkMode ? styles.calendarD : styles.calendarL}>
       {days.map((day) => (
         <div
           key={day.date}
           className={`${styles.day} ${
             day.change > 0
-              ? styles.green
+              ? isDarkMode
+                ? styles.greenD
+                : styles.greenL
               : day.change < 0
               ? styles.red
               : styles.neutral

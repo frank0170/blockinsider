@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { getCoinData, getCoinOHLCV } from "@/api/coinMarketCap";
 import Sparkline from "@/app/shared/sparkline/sparkline";
-const globalCard = "rounded-[10px] p-[16px] w-[438px] h-[236px]";
-const globalTitle = "text-black font-semibold text-[20px]";
+import { useTheme } from "@/context/ThemeContext";
 
-const BitcoinCard = () => {
+const globalCard = "rounded-[10px] p-[16px] w-[438px] h-[236px]";
+
+const BitcoinCard = ({ dark, globalTitle }) => {
   const coin = "bitcoin";
 
   const [coinData, setCoinData] = useState<any>({});
@@ -79,13 +80,16 @@ const BitcoinCard = () => {
     fetchCoinOHLCV();
   }, [coinData?.id]);
 
-  console.log(coinData);
+  const style = dark
+    ? { border: "1px solid #e0e0e0", background: "#555454" }
+    : { border: "1px solid black", background: "white" };
+
   return (
     <div
       className={globalCard}
       style={{
-        border: "1px solid black",
-        background: "white",
+        border: style.border,
+        background: style.background,
         display: "flex",
         alignItems: "center",
         flexDirection: "column",
@@ -101,12 +105,13 @@ const BitcoinCard = () => {
   );
 };
 
-const FearGreedCard = () => {
+const FearGreedCard = ({ dark, globalTitle }) => {
+  const style = dark
+    ? { border: "1px solid #e0e0e0", background: "#555454" }
+    : { border: "1px solid black", background: "white" };
+
   return (
-    <div
-      className={globalCard}
-      style={{ border: "1px solid black", background: "white" }}
-    >
+    <div className={globalCard} style={style}>
       <div className="w-full flex">
         <span className={globalTitle}>Fear & Greed Index</span>
       </div>
@@ -114,12 +119,13 @@ const FearGreedCard = () => {
   );
 };
 
-const EventsCard = () => {
+const EventsCard = ({ dark, globalTitle }) => {
+  const style = dark
+    ? { border: "1px solid #e0e0e0", background: "#555454" }
+    : { border: "1px solid black", background: "white" };
+
   return (
-    <div
-      className={globalCard}
-      style={{ border: "1px solid black", background: "white" }}
-    >
+    <div className={globalCard} style={style}>
       <div className="w-full flex">
         <span className={globalTitle}>Hot Events</span>
       </div>
@@ -128,11 +134,16 @@ const EventsCard = () => {
 };
 
 export const Highlights = () => {
+  const { isDarkMode } = useTheme();
+  const globalTitle = `text-[#${
+    isDarkMode ? "e0e0e0" : "000000"
+  } font-semibold text-[20px]`;
+
   return (
     <div className="flex justify-between gap-[20px] items-center">
-      <BitcoinCard />
-      <FearGreedCard />
-      <EventsCard />
+      <BitcoinCard dark={isDarkMode} globalTitle={globalTitle} />
+      <FearGreedCard dark={isDarkMode} globalTitle={globalTitle} />
+      <EventsCard dark={isDarkMode} globalTitle={globalTitle} />
     </div>
   );
 };
