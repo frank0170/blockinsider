@@ -201,3 +201,20 @@ export const getExchanges = async () => {
     throw error;
   }
 };
+
+export const getHeatMap = async (start: string, limit: string) => {
+  const cacheKey = `heatMap-${start}-${limit}`;
+  const cachedData = getCache(cacheKey);
+  if (cachedData) return cachedData;
+
+  try {
+    const res = await axios.get(`${baseURL}/heatmap`, {
+      params: { start, limit },
+    });
+    setCache(cacheKey, res.data, 5 * 60 * 1000); // Cache for 5 minutes
+    return res.data;
+  } catch (error) {
+    console.error("Error fetching OHLCV data: ", error);
+    throw error;
+  }
+};

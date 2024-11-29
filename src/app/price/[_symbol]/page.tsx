@@ -292,7 +292,7 @@ export default function Page({ params }: any) {
         }] p-6 rounded-lg shadow-md`}
       >
         <h2 className="text-2xl font-semibold  mb-4">Latest News</h2>
-        <CryptoNews news={coinNews} symbol={coinData?.symbol} />
+        <CryptoNews news={coinNews} symbol={coinData?.symbol} overview />
       </div>
     </div>
   );

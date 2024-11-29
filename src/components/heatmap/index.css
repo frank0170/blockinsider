@@ -1,0 +1,54 @@
+.heatmap-container {
+  display: grid;
+  grid-template-columns: repeat(
+    auto-fill,
+    minmax(80px, 1fr)
+  ); /* Creates a flexible grid with variable column widths */
+  grid-template-rows: repeat(
+    auto-fill,
+    minmax(80px, 1fr)
+  ); /* Ensures blocks are square-shaped */
+  gap: 0; /* No gap between blocks */
+  padding: 10px;
+  background-color: #121212;
+  border-radius: 10px;
+  width: 100%;
+  height: 100vh; /* Full viewport height */
+  overflow: hidden; /* Prevent overflow */
+}
+
+.crypto-block {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border-radius: 8px;
+  color: #ffffff;
+  text-align: center;
+  font-family: Arial, sans-serif;
+  font-size: 0.8rem;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  position: relative; /* Ensure elements are positioned correctly in grid */
+  padding: 5px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.crypto-block:hover {
+  transform: scale(1.05); /* Hover effect */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+}
+
+.crypto-symbol {
+  font-size: 1rem;
+  font-weight: bold;
+}
+
+.crypto-price {
+  font-size: 0.9rem;
+  margin-top: 5px;
+}
+
+.crypto-change {
+  font-size: 0.8rem;
+  margin-top: 5px;
+}
