@@ -64,6 +64,32 @@ const Header = () => {
           </div>
 
           <div
+            onClick={() => router.push(`/top-gainers`)}
+            className="cursor-pointer"
+          >
+            <h1
+              className={`text-lg font-500 text-${
+                isDarkMode ? "white" : "black"
+              }`}
+            >
+              Top Gainers
+            </h1>
+          </div>
+
+          <div
+            onClick={() => router.push(`/top-losers`)}
+            className="cursor-pointer"
+          >
+            <h1
+              className={`text-lg font-500 text-${
+                isDarkMode ? "white" : "black"
+              }`}
+            >
+              Top Losers
+            </h1>
+          </div>
+
+          <div
             onClick={() => router.push(`/heatmap`)}
             className="cursor-pointer"
           >

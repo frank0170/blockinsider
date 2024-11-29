@@ -218,3 +218,37 @@ export const getHeatMap = async (start: string, limit: string) => {
     throw error;
   }
 };
+
+export const getTopGainers = async (period: string) => {
+  const cacheKey = `topGainers-${period}`;
+  const cachedData = getCache(cacheKey);
+  if (cachedData) return cachedData;
+
+  try {
+    const res = await axios.get(`${baseURL}/top-gainers`, {
+      params: { period },
+    });
+    setCache(cacheKey, res.data, 5 * 60 * 1000); // Cache for 5 minutes
+    return res.data;
+  } catch (error) {
+    console.error("Error fetching OHLCV data: ", error);
+    throw error;
+  }
+};
+
+export const getTopLosers = async (period: string) => {
+  const cacheKey = `topLosers-${period}`;
+  const cachedData = getCache(cacheKey);
+  if (cachedData) return cachedData;
+
+  try {
+    const res = await axios.get(`${baseURL}/top-losers`, {
+      params: { period },
+    });
+    setCache(cacheKey, res.data, 5 * 60 * 1000); // Cache for 5 minutes
+    return res.data;
+  } catch (error) {
+    console.error("Error fetching OHLCV data: ", error);
+    throw error;
+  }
+};

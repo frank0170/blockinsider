@@ -39,6 +39,7 @@ h1 {
   background-color: #909090;
   height: 100%;
   position: absolute;
+
   top: 0;
   left: 0;
   width: 0%; /* Dynamically adjusted based on current price */
