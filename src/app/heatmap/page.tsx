@@ -65,6 +65,7 @@ export default function Home() {
       <br /> */}
       <iframe
         src="https://coin360.com/widget/map?utm_source=embed_map"
+        //@ts-ignore
         frameborder="0"
         title="Blockinsider"
         width="100%"
