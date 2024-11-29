@@ -65,7 +65,7 @@ export default function Home() {
       <br /> */}
       <iframe
         src="https://coin360.com/widget/map?utm_source=embed_map"
-        //@ts-expect-error
+        //@ts-expect-error: added coin360 haetmap
         frameborder="0"
         title="Blockinsider"
         width="100%"
