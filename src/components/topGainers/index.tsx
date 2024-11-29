@@ -98,7 +98,7 @@ export const TopGainersList = ({ interval = "24h" }: any) => {
                 <Link href={`/price/${item.slug}`} prefetch={true}>
                   <div className="flex flex-row items-center gap-[8px]">
                     <img
-                      src={`https://s2.coinmarketcap.com/static/img/coins/64x64/${item.id}.png`}
+                      src={`https://s2.coinmarketcap.com/static/img/coins/128x128/${item.id}.png`}
                       width={28}
                     />
                     <span className="text-500">{item.name}</span>
