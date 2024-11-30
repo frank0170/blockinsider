@@ -45,7 +45,7 @@ export const PriceRange = ({ coinData, currency = "USD" }) => {
         startDateString
       );
 
-      const prices = response.data.quotes;
+      const prices = response;
 
       // Get the min and max prices
       const minPrice = Math.min(

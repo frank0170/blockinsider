@@ -252,3 +252,18 @@ export const getTopLosers = async (period: string) => {
     throw error;
   }
 };
+
+export const getFearGreed = async () => {
+  const cacheKey = `fearGreed`;
+  const cachedData = getCache(cacheKey);
+  if (cachedData) return cachedData;
+
+  try {
+    const res = await axios.get(`${baseURL}/fear-greed`, {});
+    setCache(cacheKey, res.data, 15 * 60 * 1000); // Cache for 15 minutes
+    return res.data;
+  } catch (error) {
+    console.error("Error fetching OHLCV data: ", error);
+    throw error;
+  }
+};

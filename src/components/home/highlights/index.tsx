@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { getCoinData, getCoinOHLCV } from "@/api/coinMarketCap";
 import Sparkline from "@/app/shared/sparkline/sparkline";
 import { useTheme } from "@/context/ThemeContext";
+import { FearGreedIndex } from "@/components/coin/fearGreed/fearGreed";
 
 const globalCard = "rounded-[10px] p-[16px] w-[438px] h-[236px]";
 
@@ -59,7 +60,7 @@ const BitcoinCard = ({ dark, globalTitle }) => {
 
       try {
         const res = await getCoinOHLCV(coinId, coinInterval, 20);
-        const chartData = res.data?.quotes?.map((item: any) => ({
+        const chartData = res?.map((item: any) => ({
           time: dateToChartTimeMinute(new Date(item.quote.USD.timestamp)),
           open: item.quote.USD.open,
           high: item.quote.USD.high,
@@ -114,6 +115,7 @@ const FearGreedCard = ({ dark, globalTitle }) => {
     <div className={globalCard} style={style}>
       <div className="w-full flex">
         <span className={globalTitle}>Fear & Greed Index</span>
+        <FearGreedIndex />
       </div>
     </div>
   );

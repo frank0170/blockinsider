@@ -58,7 +58,7 @@ const BitcoinCard = () => {
 
       try {
         const res = await getCoinOHLCV(coinId, coinInterval, 20);
-        const chartData = res.data?.quotes?.map((item: any) => ({
+        const chartData = res?.map((item: any) => ({
           time: dateToChartTimeMinute(new Date(item.quote.USD.timestamp)),
           open: item.quote.USD.open,
           high: item.quote.USD.high,

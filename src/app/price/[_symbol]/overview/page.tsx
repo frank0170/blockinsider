@@ -102,7 +102,7 @@ export default function Page({ params }: any) {
         setCoinMetaData(metadataRes.data[firstKey]);
         setCoinNews(newsRes.results);
 
-        const chartData = ohlcvRes.data?.quotes?.map((item: any) => ({
+        const chartData = ohlcvRes?.map((item: any) => ({
           time: dateToChartTimeMinute(new Date(item.quote.USD.timestamp)),
           open: item.quote.USD.open,
           high: item.quote.USD.high,
@@ -111,6 +111,8 @@ export default function Page({ params }: any) {
         }));
 
         setCoinOHLCV(chartData || []);
+
+        console.log("chartData");
       } catch (error) {
         console.error("Error fetching OHLCV data:", error);
       }
