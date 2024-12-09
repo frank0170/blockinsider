@@ -2,7 +2,7 @@ import axios from "axios";
 import { isDevelopment } from "../utils/config";
 
 const baseURL = isDevelopment
-  ? "https://d7c1-81-196-204-47.ngrok-free.app/blockinsider"
+  ? "http://localhost:5050/blockinsider"
   : "https://phpstack-1372644-5063353.cloudwaysapps.com/blockinsider";
 
 type CacheEntry = { data: any; expiration: number };

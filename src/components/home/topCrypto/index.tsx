@@ -72,26 +72,25 @@ export const TopCryptoList = () => {
     <div
       className={`w-full bg-[#${
         isDarkMode ? "454545" : "000000"
-      }] p-6 rounded-lg shadow-md`}
+      }] rounded-lg shadow-md`}
     >
-      <table className="w-full border-collapse text-left">
+      <table className="w-full border-collapse table-auto text-left">
         <thead className="border-b">
           <tr>
-            <th className={tableText}>Rank</th>
-            <th className={tableText}>Name</th>
-            <th className={tableText}>Price</th>
-            <th className={tableText}>24h %</th>
-            <th className={tableText}>7d %</th>
-            <th className={tableText}>Market Cap</th>
-            <th className={tableText}>Volume 24h</th>
+            <th className={`${tableText} text-left`}>Rank</th>
+            <th className={`${tableText} text-left`}>Name</th>
+            <th className={`${tableText} text-left`}>Price</th>
+            <th className={`${tableText} text-left`}>24h %</th>
+            <th className={`${tableText} text-left`}>7d %</th>
+            <th className={`${tableText} text-left`}>Market Cap</th>
+            <th className={`${tableText} text-left`}>Volume 24h</th>
           </tr>
         </thead>
         <tbody>
           {paginatedItems.map((item: any, index) => (
             <tr
               key={index}
-              className={activeItem}
-              style={{ borderBottom: "1px solid #f7f7f7" }}
+              className={`${activeItem} border-b border-gray-200`}
             >
               <td className="py-2 px-4 text-[#a5a5a5]">#{item.cmc_rank}</td>
               <td className={tableItem}>
@@ -100,9 +99,12 @@ export const TopCryptoList = () => {
                     <img
                       src={`https://s2.coinmarketcap.com/static/img/coins/64x64/${item.id}.png`}
                       width={28}
+                      alt={item.name}
                     />
-                    <span className="text-500">{item.name}</span>
-                    <span className="text-[#b4b4b4]">{item.symbol}</span>
+                    <div>
+                      <span className="font-medium">{item.name}</span>
+                      <span className="text-[#b4b4b4] ml-1">{item.symbol}</span>
+                    </div>
                   </div>
                 </Link>
               </td>
@@ -125,9 +127,7 @@ export const TopCryptoList = () => {
                     {(
                       item.quote?.USD?.volume_24h / item?.quote?.USD?.price
                     ).toLocaleString()}{" "}
-                    <span className="text-[#b4b4b4] text-[14px]">
-                      {item.symbol}
-                    </span>
+                    {item.symbol}
                   </span>
                 </div>
               </td>
@@ -135,7 +135,7 @@ export const TopCryptoList = () => {
           ))}
         </tbody>
       </table>
-      <div className="flex flex-row gap-[40px] justify-center mt-[24px]">
+      <div className="flex flex-row gap-[40px] justify-center my-[24px]">
         {" "}
         <Pagination
           currentPage={currentPage}
