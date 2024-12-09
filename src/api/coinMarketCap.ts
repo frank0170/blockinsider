@@ -267,3 +267,33 @@ export const getFearGreed = async () => {
     throw error;
   }
 };
+
+export const getGlobalMetrics = async () => {
+  const cacheKey = `global-metrics-latest`;
+  const cachedData = getCache(cacheKey);
+  if (cachedData) return cachedData;
+
+  try {
+    const res = await axios.get(`${baseURL}/global-metrics`, {});
+    setCache(cacheKey, res.data, 15 * 60 * 1000); // Cache for 15 minutes
+    return res.data;
+  } catch (error) {
+    console.error("Error fetching OHLCV data: ", error);
+    throw error;
+  }
+};
+
+export const getTrending = async () => {
+  const cacheKey = `trending-latest`;
+  const cachedData = getCache(cacheKey);
+  if (cachedData) return cachedData;
+
+  try {
+    const res = await axios.get(`${baseURL}/trending`, {});
+    setCache(cacheKey, res.data, 15 * 60 * 1000); // Cache for 15 minutes
+    return res.data;
+  } catch (error) {
+    console.error("Error fetching OHLCV data: ", error);
+    throw error;
+  }
+};
