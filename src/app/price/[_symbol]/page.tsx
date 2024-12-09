@@ -229,7 +229,7 @@ export default function Page({ params }: any) {
             </button>
           </div> */}
 
-        <div className="h-[400px] bg-gray-200 rounded-lg">
+        <div className="relative w-full overflow-hidden rounded-lg">
           <CryptoChart data={coinOHLCV} />
         </div>
       </div>

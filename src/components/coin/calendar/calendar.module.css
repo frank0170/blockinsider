@@ -1,4 +1,4 @@
-.calendarL {
+/* .calendarL {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
   gap: 10px;
@@ -25,6 +25,84 @@
   border-radius: 5px;
   font-size: 14px;
   font-weight: bold;
+}
+
+.greenL {
+  background-color: rgba(0, 255, 0, 0.2);
+  color: green;
+}
+
+.greenD {
+  background-color: rgba(0, 255, 0, 0.2);
+  color: rgb(90, 255, 90);
+}
+
+.red {
+  background-color: rgba(255, 0, 0, 0.2);
+  color: red;
+}
+
+.neutral {
+  background-color: rgba(200, 200, 200, 0.2);
+  color: #555;
+} */
+.calendarL,
+.calendarD {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 10px;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.calendarL {
+  background-color: #f9f9f9;
+}
+
+.calendarD {
+  background-color: #555454;
+}
+
+@media (max-width: 768px) {
+  .calendarL,
+  .calendarD {
+    grid-template-columns: repeat(3, 1fr); /* 3 coloane pe tabletă */
+    gap: 8px;
+    padding: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .calendarL,
+  .calendarD {
+    grid-template-columns: repeat(2, 1fr); /* 2 coloane pe telefon */
+    gap: 5px;
+    padding: 8px;
+  }
+}
+
+.day {
+  text-align: center;
+  padding: 10px;
+  border: 1px solid #e0e0e0;
+  border-radius: 5px;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+@media (max-width: 768px) {
+  .day {
+    font-size: 12px; /* Font mai mic pe ecrane mici */
+    padding: 8px;
+  }
+}
+
+@media (max-width: 480px) {
+  .day {
+    font-size: 10px; /* Font foarte mic pe telefoane */
+    padding: 6px;
+  }
 }
 
 .greenL {

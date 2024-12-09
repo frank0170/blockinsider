@@ -33,10 +33,11 @@ h1 {
   height: 10px;
   position: relative;
   border-radius: 5px;
+
 }
 
 .filled-bar {
-  background-color: #909090;
+  background-color: #093594;
   height: 100%;
   position: absolute;
 
