@@ -2,7 +2,7 @@ import axios from "axios";
 import { isDevelopment } from "../utils/config";
 
 const baseURL = isDevelopment
-  ? "http://localhost:5050/blockinsider"
+  ? "https://backend-fetch-server.onrender.com"
   : "https://phpstack-1372644-5063353.cloudwaysapps.com/blockinsider";
 
 type CacheEntry = { data: any; expiration: number };
